@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double minIPC = Double.MAX_VALUE;
+        double maxIPC = Double.MIN_VALUE;
+        double sumIPC = 0;
+        int count = 0;
+        while (true) {
+            String monthYear = scanner.next();
+            if (monthYear.equals("*"))
+                break;
+            double ipc = scanner.nextDouble();
+            sumIPC += ipc;
+            if (ipc < minIPC)
+                minIPC = ipc;
+            if (ipc > maxIPC)
+                maxIPC = ipc;
+            count++;
+        }
+        System.out.printf("(%.2f) (%.2f)\n", minIPC, maxIPC);
+        System.out.printf("%.2f\n", sumIPC / count);
+    }
+}
