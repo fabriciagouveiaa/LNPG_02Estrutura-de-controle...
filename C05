@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <limits.h>
+
+int main() {
+    char monthYear[20];
+    double ipc, minIPC = INT_MAX, maxIPC = INT_MIN, sumIPC = 0;
+    int count = 0;
+    while (1) {
+        scanf("%s", monthYear);
+        if (monthYear[0] == '*')
+            break;
+        scanf("%lf", &ipc);
+        sumIPC += ipc;
+        if (ipc < minIPC) {
+            minIPC = ipc;
+        }
+        if (ipc > maxIPC) {
+            maxIPC = ipc;
+        }
+        count++;
+    }
+    printf("(%.2f) (%.2f)\n", minIPC, maxIPC);
+    printf("%.2f\n", sumIPC / count);
+    return 0;
+}
