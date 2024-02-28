@@ -1,0 +1,69 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int[] gabarito = new int[10];
+        for (int i = 0; i < 10; ++i)
+            gabarito[i] = scanner.nextInt();
+
+        String[] participants = new String[100];
+        int[] scores = new int[100];
+        int n = 0;
+        while (true) {
+            String name = scanner.next();
+            if (name.equals("*"))
+                break;
+            participants[n] = name;
+            int score = 0;
+            for (int i = 0; i < 10; ++i) {
+                int answer = scanner.nextInt();
+                if (answer == gabarito[i])
+                    score++;
+            }
+            scores[n++] = score;
+        }
+
+        Arrays.sort(participants, 0, n);
+        sortScores(participants, scores, n);
+
+        System.out.println("Relacao dos participantes em ordem alfabetica com suas respectivas notas:");
+        for (int i = 0; i < n; ++i)
+            System.out.println(participants[i] + " " + scores[i]);
+
+        int maxScore = scores[n - 1];
+        int minScore = scores[0];
+
+        System.out.println("Relacao dos participantes com a melhores pontuacoes:");
+        for (int i = n - 1; i >= 0 && scores[i] == maxScore; --i)
+            System.out.println(participants[i]);
+
+        System.out.println("Relacao dos participantes com a pior pontuacao:");
+        for (int i = 0; i < n && scores[i] == minScore; ++i)
+            System.out.println(participants[i]);
+
+        int countMoreThanHalf = 0;
+        for (int i = 0; i < n; ++i) {
+            if (scores[i] > 5)
+                countMoreThanHalf++;
+        }
+        double percentage = (double) countMoreThanHalf / n * 100;
+        System.out.printf("Percentual de participantes com mais da metade das questoes certas: %.1f\n", percentage);
+    }
+
+    public static void sortScores(String[] participants, int[] scores, int n) {
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (scores[i] > scores[j]) {
+                    String tempName = participants[i];
+                    participants[i] = participants[j];
+                    participants[j] = tempName;
+                    int tempScore = scores[i];
+                    scores[i] = scores[j];
+                    scores[j] = tempScore;
+                }
+            }
+        }
+    }
+}
