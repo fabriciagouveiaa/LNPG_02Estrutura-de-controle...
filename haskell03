@@ -1,0 +1,7 @@
+main :: IO ()
+main = do
+    vendas <- readLn
+    let totalVendas = fromIntegral vendas * 19.90
+        bonus = fromIntegral (vendas `div` 15) * (totalVendas * 0.08)
+        salario = totalVendas * 0.50
+    putStrLn $ unlines [printf "%.2f" totalVendas, printf "%.2f" bonus, printf "%.2f" (salario + bonus)]
