@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void checkPassenger(int n) {
+        Scanner scanner = new Scanner(System.in);
+        while (n-- > 0) {
+            String rg = scanner.next();
+            String rgDOB = scanner.next();
+            String passagem = scanner.next();
+            String passagemDOB = scanner.next();
+            String assento = scanner.next();
+            
+            if (rg.equals("Nao") || passagem.equals("Nao")) {
+                if (rg.equals("Nao"))
+                    System.out.println("a saida e nessa direcao");
+                else
+                    System.out.println("a recepcao e nessa direcao");
+            } else if (!rgDOB.equals(passagemDOB)) {
+                System.out.println("190");
+            } else {
+                System.out.println("o seu assento e " + assento + " tenha um otimo dia");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        checkPassenger(n);
+    }
+}
