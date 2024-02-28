@@ -1,0 +1,33 @@
+import Data.List
+import Text.Printf
+
+sortParticipants :: [(String, Int)] -> [(String, Int)]
+sortParticipants = sortOn fst
+
+main :: IO ()
+main = do
+    gabarito <- map read . words <$> getLine
+    input <- readParticipants gabarito []
+    let sortedParticipants = sortParticipants input
+    putStrLn "Relacao dos participantes em ordem alfabetica com suas respectivas notas:"
+    mapM_ (\(name, score) -> putStrLn $ name ++ " " ++ show score) sortedParticipants
+    let maxScore = maximum (map snd sortedParticipants)
+        minScore = minimum (map snd sortedParticipants)
+        bestParticipants = filter (\(_, score) -> score == maxScore) sortedParticipants
+        worstParticipants = filter (\(_, score) -> score == minScore) sortedParticipants
+        percentMoreThanHalf = fromIntegral (length $ filter (\(_, score) -> score > 5) sortedParticipants) / fromIntegral (length sortedParticipants) * 100
+    putStrLn "Relacao dos participantes com a melhores pontuacoes:"
+    mapM_ (\(name, _) -> putStrLn name) bestParticipants
+    putStrLn "Relacao dos participantes com a pior pontuacao:"
+    mapM_ (\(name, _) -> putStrLn name) worstParticipants
+    printf "Percentual de participantes com mais da metade das questoes certas: %.1f\n" percentMoreThanHalf
+
+readParticipants :: [Int] -> [(String, Int)] -> IO [(String, Int)]
+readParticipants gabarito participants = do
+    line <- getLine
+    if line == "*"
+        then return participants
+        else do
+            let (name:answers) = words line
+                score = length $ filter (\(a, b) -> a == b) (zip (map read answers) gabarito)
+            readParticipants gabarito ((name, score):participants)
