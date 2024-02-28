@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_PARTICIPANTS 100
+
+void sortParticipants(int n, char participants[][20], int scores[]) {
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (strcmp(participants[i], participants[j]) > 0) {
+                char temp[20];
+                strcpy(temp, participants[i]);
+                strcpy(participants[i], participants[j]);
+                strcpy(participants[j], temp);
+                int tempScore = scores[i];
+                scores[i] = scores[j];
+                scores[j] = tempScore;
+            }
+        }
+    }
+}
+
+int main() {
+    int gabarito[10];
+    for (int i = 0; i < 10; ++i)
+        scanf("%d", &gabarito[i]);
+
+    char participants[MAX_PARTICIPANTS][20];
+    int scores[MAX_PARTICIPANTS];
+    int n = 0;
+    while (1) {
+        char name[20];
+        scanf("%s", name);
+        if (strcmp(name, "*") == 0)
+            break;
+        strcpy(participants[n], name);
+        int score = 0;
+        for (int i = 0; i < 10; ++i) {
+            int answer;
+            scanf("%d", &answer);
+            if (answer == gabarito[i])
+                score++;
+        }
+        scores[n++] = score;
+    }
+
+    sortParticipants(n, participants, scores);
+
+    printf("Relacao dos participantes em ordem alfabetica com suas respectivas notas:\n");
+    for (int i = 0; i < n; ++i)
+        printf("%s %d\n", participants[i], scores[i]);
+
+    int maxScore = scores[n - 1];
+    int minScore = scores[0];
+
+    printf("Relacao dos participantes com a melhores pontuacoes:\n");
+    for (int i = n - 1; i >= 0 && scores[i] == maxScore; --i)
+        printf("%s\n", participants[i]);
+
+    printf("Relacao dos participantes com a pior pontuacao:\n");
+    for (int i = 0; i < n && scores[i] == minScore; ++i)
+        printf("%s\n", participants[i]);
+
+    int countMoreThanHalf = 0;
+    for (int i = 0; i < n; ++i) {
+        if (scores[i] > 5)
+            countMoreThanHalf++;
+    }
+    double percentage = (double) countMoreThanHalf / n * 100;
+    printf("Percentual de participantes com mais da metade das questoes certas: %.1f\n", percentage);
+
+    return 0;
+}
