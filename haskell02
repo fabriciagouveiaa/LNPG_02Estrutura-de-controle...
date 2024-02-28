@@ -1,0 +1,9 @@
+calculatePi :: Int -> Double
+calculatePi n = let s = sum [1 / fromIntegral (i * i) | i <- [1..n]]
+                in (s * 32) ** (1 / 3)
+
+main :: IO ()
+main = do
+    n <- readLn
+    let piValue = calculatePi n
+    putStrLn $ printf "%.5f" piValue
