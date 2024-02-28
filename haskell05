@@ -1,0 +1,22 @@
+import Text.Printf
+
+analyzeIPC :: [(String, Double)] -> (Double, Double, Double)
+analyzeIPC [] = (0, 0, 0)
+analyzeIPC ipcList = (minimum ipcValues, maximum ipcValues, sum ipcValues / fromIntegral (length ipcValues))
+    where ipcValues = map snd ipcList
+
+main :: IO ()
+main = do
+    ipcList <- readIPC []
+    let (minIPC, maxIPC, averageIPC) = analyzeIPC ipcList
+    putStrLn $ printf "(%.2f) (%.2f)" minIPC maxIPC
+    printf "%.2f\n" averageIPC
+
+readIPC :: [(String, Double)] -> IO [(String, Double)]
+readIPC ipcList = do
+    input <- getLine
+    if input == "*"
+        then return ipcList
+        else do
+            let (monthYear:ipc:_) = words input
+            readIPC ((monthYear, read ipc):ipcList)
