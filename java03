@@ -1,0 +1,12 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int vendas = scanner.nextInt();
+        double totalVendas = vendas * 19.90;
+        double bonus = (vendas / 15) * (totalVendas * 0.08);
+        double salario = totalVendas * 0.50;
+        System.out.printf("%.2f\n%.2f\n%.2f\n", totalVendas, bonus, salario + bonus);
+    }
+}
